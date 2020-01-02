@@ -455,7 +455,7 @@ template <class IntType>
 SRSASN_CODE unpack_constrained_whole_number(IntType& n, bit_ref& bref, IntType lb, IntType ub, bool aligned)
 {
   if (ub < lb) {
-    srsasn_log_print(LOG_LEVEL_ERROR, "The condition lb <= ub (%lu <= %lu) was not met\n", lb, ub);
+    srsasn_log_print(LOG_LEVEL_ERROR, "The condition lb <= ub (%u <= %u) was not met\n", lb, ub);
     return SRSASN_ERROR_DECODE_FAIL;
   }
   uint64_t ra = (uint64_t)(ub - lb) + 1; // NOTE: Can overflow if IntType is kept.
@@ -469,7 +469,7 @@ SRSASN_CODE unpack_constrained_whole_number(IntType& n, bit_ref& bref, IntType l
     HANDLE_CODE(bref.unpack(n, n_bits));
     n += lb;
     if (n > ub) {
-      srsasn_log_print(LOG_LEVEL_ERROR, "The condition lb <= n <= ub (%lu <= %lu <= %lu) was not met\n", lb, n, ub);
+      srsasn_log_print(LOG_LEVEL_ERROR, "The condition lb <= n <= ub (%u <= %u <= %u) was not met\n", lb, n, ub);
       return SRSASN_ERROR_DECODE_FAIL;
     }
   } else {
