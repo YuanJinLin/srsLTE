@@ -196,6 +196,37 @@ public:
   virtual bool has_bearer(uint16_t rnti, uint32_t lcid)                                  = 0;
 };
 
+// MR-DC interface for GTPU
+class mrdc_interface_gtpu
+{
+public:
+  virtual void write_sdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t sdu) = 0;
+}
+
+// MR-DC interface for PDCP
+class mrdc_interface_pdcp
+{
+public:
+  virtual void write_sdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t sdu) = 0;
+};
+
+// MR-DC interface for RRC
+class mrdc_interface_rrc
+{
+public:
+  virtual void reset(uint16_t rnti)    = 0;
+  virtual void add_user(uint16_t rnti) = 0; 
+  virtual void rem_user(uint16_t rnti) = 0;
+};
+
+// PDCP interface for MR-DC
+class pdcp_interfae_mrdc
+{
+public:
+  virtual void write_pdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t sdu) = 0;
+};
+
+
 // PDCP interface for GTPU
 class pdcp_interface_gtpu
 {
@@ -255,6 +286,13 @@ public:
   virtual bool is_paging_opportunity(uint32_t tti, uint32_t* payload_len) = 0;
 };
 
+// RRC interface for MR-DC
+class rrc_interface_mrdc
+{
+public:
+  virtual void write_pdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t pdu) = 0;
+};
+
 // RRC interface for PDCP
 class rrc_interface_pdcp
 {
@@ -278,6 +316,14 @@ public:
 
 // GTPU interface for PDCP
 class gtpu_interface_pdcp
+{
+public:
+  virtual void write_pdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t pdu) = 0;
+  virtual void write_sdu(uint16_t rnti, uint32_t lcid, srslte::byte_buffer_t *sdu)       = 0;
+};
+
+// GTPU interfae for MR-DC
+class gtpu_interface_mrdc
 {
 public:
   virtual void write_pdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t pdu) = 0;

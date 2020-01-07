@@ -251,11 +251,26 @@ public:
   virtual void write_pdu_mch(uint32_t lcid, srslte::unique_byte_buffer_t sdu) = 0;
 };
 
+// PDCP interface for MR-DC
+class pdcp_interface_mrdc
+{
+public:
+  virtual void write_pdu(uint32_t lcid, srslte::unique_byte_buffer_t pdu)     = 0;
+};
+
+// PDCP interface for GW
 class pdcp_interface_gw
 {
 public:
   virtual void write_sdu(uint32_t lcid, srslte::unique_byte_buffer_t sdu, bool blocking) = 0;
   virtual bool is_lcid_enabled(uint32_t lcid)                                            = 0;
+};
+
+// MR-DC interface for PDCP
+class mrdc_interface_pdcp
+{
+public:
+  virtual void write_sdu(uint32_t lcid, srslte::unique_byte_buffer_t sdu, bool blocking) = 0;
 };
 
 // RLC interface for RRC
