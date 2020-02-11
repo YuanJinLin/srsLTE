@@ -31,6 +31,7 @@
 #include "rrc/rrc.h"
 #include "upper/gtpu.h"
 #include "upper/pdcp.h"
+#include "upper/x2ap.h"
 #include "upper/rlc.h"
 #include "upper/s1ap.h"
 
@@ -126,6 +127,7 @@ private:
   srslte::mac_pcap mac_pcap;
   srsenb::rlc      rlc;
   srsenb::pdcp     pdcp;
+  srsenb::x2ap     x2ap;
   srsenb::rrc      rrc;
   srsenb::gtpu     gtpu;
   srsenb::s1ap     s1ap;
@@ -137,6 +139,7 @@ private:
   srslte::log_filter mac_log;
   srslte::log_filter rlc_log;
   srslte::log_filter pdcp_log;
+  srslte::log_filte  x2ap_log;
   srslte::log_filter rrc_log;
   srslte::log_filter s1ap_log;
   srslte::log_filter gtpu_log;

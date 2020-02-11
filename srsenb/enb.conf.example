@@ -277,3 +277,5 @@ nof_ctrl_symbols = 3
 #max_prach_offset_us  = 30
 #eea_pref_list = EEA0, EEA2, EEA1
 #eia_pref_list = EIA2, EIA1, EIA0
+#x2ap_myaddr = 192.168.0.1
+#x2ap_neiaddr = 192.168.0.2

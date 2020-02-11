@@ -201,7 +201,7 @@ class mrdc_interface_gtpu
 {
 public:
   virtual void write_sdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t sdu) = 0;
-}
+};
 
 // MR-DC interface for PDCP
 class mrdc_interface_pdcp
@@ -217,15 +217,30 @@ public:
   virtual void reset(uint16_t rnti)    = 0;
   virtual void add_user(uint16_t rnti) = 0; 
   virtual void rem_user(uint16_t rnti) = 0;
+  virtual void add_bearer(uint16_t rnti, uint32_t lcid, srslte::rlc_config_t cnfg)       = 0;
+  virtual bool has_bearer(uint16_t rnti, uint32_t lcid)                                  = 0;
+};
+
+// X2AP interface for PDCP
+class x2ap_interface_pdcp
+{
+public:
+	virtual void write_pdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t pdu) = 0;
 };
 
 // PDCP interface for MR-DC
 class pdcp_interfae_mrdc
 {
 public:
-  virtual void write_pdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t sdu) = 0;
+  virtual void write_pdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t pdu) = 0;
 };
 
+// PDCP interface for X2AP
+class pdcp_interface_x2ap
+{
+public:
+	virtual void write_sdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t sdu) = 0;
+};
 
 // PDCP interface for GTPU
 class pdcp_interface_gtpu

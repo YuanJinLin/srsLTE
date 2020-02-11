@@ -73,6 +73,7 @@ int enb_stack_lte::init(const stack_args_t& args_, const rrc_cfg_t& rrc_cfg_)
   mac_log.init("MAC ", logger, true);
   rlc_log.init("RLC ", logger);
   pdcp_log.init("PDCP", logger);
+  x2ap_log.init("X2AP", logger);
   rrc_log.init("RRC ", logger);
   gtpu_log.init("GTPU", logger);
   s1ap_log.init("S1AP", logger);
@@ -84,6 +85,7 @@ int enb_stack_lte::init(const stack_args_t& args_, const rrc_cfg_t& rrc_cfg_)
   mac_log.set_level(args.log.mac_level);
   rlc_log.set_level(args.log.rlc_level);
   pdcp_log.set_level(args.log.pdcp_level);
+  x2ap_log.set_level(args.log.x2ap_level);
   rrc_log.set_level(args.log.rrc_level);
   gtpu_log.set_level(args.log.gtpu_level);
   s1ap_log.set_level(args.log.s1ap_level);
@@ -94,6 +96,7 @@ int enb_stack_lte::init(const stack_args_t& args_, const rrc_cfg_t& rrc_cfg_)
   mac_log.set_hex_limit(args.log.mac_hex_limit);
   rlc_log.set_hex_limit(args.log.rlc_hex_limit);
   pdcp_log.set_hex_limit(args.log.pdcp_hex_limit);
+  x2ap_log.set_hex_limit(args.log.x2ap_hex_limit);
   rrc_log.set_hex_limit(args.log.rrc_hex_limit);
   gtpu_log.set_hex_limit(args.log.gtpu_hex_limit);
   s1ap_log.set_hex_limit(args.log.s1ap_hex_limit);
@@ -146,6 +149,7 @@ int enb_stack_lte::init(const stack_args_t& args_, const rrc_cfg_t& rrc_cfg_)
   mac.init(args.mac, &cell_cfg, phy, &rlc, &rrc, this, &mac_log);
   rlc.init(&pdcp, &rrc, &mac, &timers, &rlc_log);
   pdcp.init(&rlc, &rrc, &gtpu);
+  x2ap.init(&pdcp, args.general.x2ap_myaddr, args.general.x2ap_neiaddr);
   rrc.init(&rrc_cfg, phy, &mac, &rlc, &pdcp, &s1ap, &gtpu, &timers, &rrc_log);
   s1ap.init(args.s1ap, &rrc, &s1ap_log, &timers, this);
   gtpu.init(args.s1ap.gtp_bind_addr,
@@ -191,6 +195,7 @@ void enb_stack_lte::stop_impl()
   mac.stop();
   rlc.stop();
   pdcp.stop();
+  x2ap.stop();
   rrc.stop();
 
   if (args.pcap.enable) {

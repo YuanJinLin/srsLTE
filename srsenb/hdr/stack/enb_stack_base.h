@@ -41,6 +41,7 @@ typedef struct {
   std::string mac_level;
   std::string rlc_level;
   std::string pdcp_level;
+  std::string x2ap_level;
   std::string rrc_level;
   std::string gtpu_level;
   std::string s1ap_level;
@@ -48,6 +49,7 @@ typedef struct {
   int mac_hex_limit;
   int rlc_hex_limit;
   int pdcp_hex_limit;
+  int x2ap_hex_limit;
   int rrc_hex_limit;
   int gtpu_hex_limit;
   int s1ap_hex_limit;

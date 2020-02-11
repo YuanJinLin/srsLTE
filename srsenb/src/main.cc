@@ -187,6 +187,8 @@ void parse_args(all_args_t* args, int argc, char* argv[])
     ("expert.eea_pref_list", bpo::value<string>(&args->general.eea_pref_list)->default_value("EEA0, EEA2, EEA1"), "Ordered preference list for the selection of encryption algorithm (EEA) (default: EEA0, EEA2, EEA1).")
     ("expert.eia_pref_list", bpo::value<string>(&args->general.eia_pref_list)->default_value("EIA2, EIA1, EIA0"), "Ordered preference list for the selection of integrity algorithm (EIA) (default: EIA2, EIA1, EIA0).")
     ("expert.nof_carriers",  bpo::value<uint32_t>(&args->phy.nof_carriers)->default_value(1),  "Number of carriers")
+	("expert.x2ap_myaddr",   bpo::value<string>(&args->general.x2ap_myaddr)->default_value("192.168.0.1"),"IP address to bind X2AP connection")
+	("expert.x2ap_neiaddr",   bpo::value<string>(&args->general.x2ap_neiaddr)->default_value("192.168.0.2"),"IP address to bind X2AP connection")
 
     // eMBMS section
     ("embms.enable", bpo::value<bool>(&args->stack.embms.enable)->default_value(false), "Enables MBMS in the eNB")

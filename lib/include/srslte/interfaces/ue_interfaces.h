@@ -239,6 +239,13 @@ public:
   virtual void enable_encryption(uint32_t lcid)                                                  = 0;
 };
 
+// PDCP interface for MR-DC
+class pdcp_interface_mrdc
+{
+public:
+	virtual void write_pdu(uint32_t lcid, srslte::unique_byte_buffer_t sdu)     = 0;
+}
+
 // PDCP interface for RLC
 class pdcp_interface_rlc
 {
