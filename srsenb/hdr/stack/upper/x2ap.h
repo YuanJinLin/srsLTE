@@ -39,7 +39,7 @@ namespace srsenb {
 class x2ap : public srsenb::x2ap_interface_pdcp
 {
 public:
-	x2ap(log* log_);
+	x2ap(srslte::log* x2ap_log_);
 	virtual ~x2ap();
 	bool init(srsenb::pdcp_interface_x2ap* pdcp_, std::string x2ap_myaddr_, std::string x2ap_neiaddr_);
 	void stop();
@@ -52,8 +52,8 @@ public:
 
 	
 private:
-	srsenb::pdcp_interface_x2ap pdcp = nullptr;
-	log * x2ap_log = nullptr;
+	srsenb::pdcp_interface_x2ap* pdcp = nullptr;
+	srslte::log* x2ap_log = nullptr;
 	
 	static const int X2AP_PORT = 8888;
 	std::string x2ap_myaddr;
@@ -70,7 +70,7 @@ private:
 	char buffer[SRSENB_MAX_BUFFER_SIZE_BYTES];
 	struct sockaddr_in s_myaddr;
 	struct sockaddr_in s_neighaddr;
-}
+};
 	
 } // namespace srsenb
 

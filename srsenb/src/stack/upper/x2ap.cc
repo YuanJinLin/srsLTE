@@ -26,9 +26,9 @@
  * Ref: 3GPP TS36.423 v16.0.0 
  ***************************************************************************/
  
- x2ap(log* log_)
+ x2ap(srslte::log* x2ap_log_)
  {
-	x2ap_log = log_;
+	x2ap_log = x2ap_log_;
  }
  
  bool x2ap::init(srsenb::pdcp_interface_x2ap* pdcp_, std::string x2ap_myaddr_, std::string x2ap_neiaddr_)

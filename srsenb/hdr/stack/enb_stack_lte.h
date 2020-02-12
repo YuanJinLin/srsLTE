@@ -139,7 +139,7 @@ private:
   srslte::log_filter mac_log;
   srslte::log_filter rlc_log;
   srslte::log_filter pdcp_log;
-  srslte::log_filte  x2ap_log;
+  srslte::log_filter x2ap_log;
   srslte::log_filter rrc_log;
   srslte::log_filter s1ap_log;
   srslte::log_filter gtpu_log;
