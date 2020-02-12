@@ -52,11 +52,11 @@
 	
 	int enable = 1;
 #if defined(SO_REUSEADDR)
-  if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
+  if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
     x2ap_log->error("setsockopt(SO_REUSEADDR) failed\n");
 #endif
 #if defined(SO_REUSEPORT)
-  if (setsockopt(fd, SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int)) < 0)
+  if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int)) < 0)
     x2ap_log->error("setsockopt(SO_REUSEPORT) failed\n");
 #endif
 
@@ -74,10 +74,10 @@
 #if(NUK_JIN_DEBUG)
 {
 	x2ap_log->console("X2AP socket_fd = %d\n", socket_fd);
-	x2ap_log->console("X2AP IP = %s  , port = %d \n", x2ap_myaddr, X2AP_PORT);
+	x2ap_log->console("X2AP IP = %s  , port = %d \n", x2ap_myaddr.c_str(), X2AP_PORT);
 	
 	x2ap_log->info("X2AP socket_fd = %d\n", socket_fd);
-	x2ap_log->info("X2AP IP = %s  , port = %d \n", x2ap_myaddr, X2AP_PORT);
+	x2ap_log->info("X2AP IP = %s  , port = %d \n", x2ap_myaddr.c_str(), X2AP_PORT);
 }
 #endif
 	
@@ -99,7 +99,7 @@
 	
 	bzero(&s_neighaddr , sizeof(struct sockaddr_in));
 	s_neighaddr.sin_family = AF_INET;
-	inet_aton(x2ap_neiaddr.c_str(), &s_neighaddr.sin_addr);
+	s_neighaddr.sin_addr.s_addr = inet_addr(x2ap_neiaddr.c_str());
 	s_neighaddr.sinport = htons(X2AP_PORT);
 	
 	if(sento(socket_fd, pdu->msg, pdu->N_bytes, MSG_EOR, (struct sockaddr*)&s_neighaddr, sizeof(struct sockaddr_in)) < 0)
@@ -111,7 +111,7 @@
  void write_sdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t sdu)
  {
 	// select() for prevent blocking / thread control
-	s_length = sizeof(s_neighaddr);
+	s_length = sizeof(struct s_neighaddr);
 	if((recv_bytes = recvfrom(socket_fd, buffer, SRSENB_MAX_BUFFER_SIZE_BYTES - SRSENB_BUFFER_HEADER_OFFSET ,0 , &s_neighaddr, s_length)) < 0 )
 	{
 		perror("could not read datagram! \n");

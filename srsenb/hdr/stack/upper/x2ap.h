@@ -33,6 +33,7 @@
 #include "srsenb/hdr/stack/upper/common_enb.h"
 
 #include <sys/socket.h>
+#include <sys/types.h>
 
 namespace srsenb {
 
