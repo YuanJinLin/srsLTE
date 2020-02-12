@@ -17,7 +17,7 @@
  *
  */
  
- #include "srslte/upper/x2ap.h"
+ #include "srsenb/hdr/stack/upper/x2ap.h"
  
  
  namespace srsenb {
