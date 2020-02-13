@@ -64,11 +64,9 @@ private:
 	
 	
 	// Socket
-	int socket_fd;
-	int receive_fd;
-	int s_length;
-	int recv_bytes;
-	char buffer[SRSENB_MAX_BUFFER_SIZE_BYTES];
+	int socket_fd = -1;
+	int receive_fd = -1;
+	socklen_t addrlen;
 	struct sockaddr_in s_myaddr;
 	struct sockaddr_in s_neighaddr;
 };

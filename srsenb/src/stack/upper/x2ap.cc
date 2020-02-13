@@ -36,6 +36,14 @@
 	pdcp = pdcp_;
 	x2ap_myaddr = x2ap_myaddr_;
 	x2ap_neiaddr = x2ap_neiaddr_;
+	pool = byte_buffer_pool::get_instance();
+	
+	bzero(&s_neighaddr , sizeof(struct sockaddr_in));
+	s_neighaddr.sin_family = AF_INET;
+	s_neighaddr.sin_addr.s_addr = inet_addr(x2ap_neiaddr.c_str());
+	s_neighaddr.sin_port = htons(X2AP_PORT);
+	
+	recv_bytes = 0;
 	
 	// Set up socket
 	socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -63,7 +71,7 @@
 	bzero(&s_myaddr , sizeof(struct sockaddr_in));
 	s_myaddr.sin_family = AF_INET;
 	s_myaddr.sin_addr.s_addr = inet_addr(x2ap_myaddr.c_str());
-	s_myaddr.sinport = htons(X2AP_PORT);
+	s_myaddr.sin_port = htons(X2AP_PORT);
 	
 	if(bind(socket_fd , (struct sockaddr*)&s_myaddr, sizeof(struct sockaddr_in)) < 0)
 	{
@@ -97,27 +105,24 @@
  {
 	x2ap_log->info_hex(pdu->msg, pdu->N_bytes, "TX PDU, RNTI: 0x%x, LCID: %d, n_bytes=%d", rnti, lcid, pdu->N_bytes);
 	
-	bzero(&s_neighaddr , sizeof(struct sockaddr_in));
-	s_neighaddr.sin_family = AF_INET;
-	s_neighaddr.sin_addr.s_addr = inet_addr(x2ap_neiaddr.c_str());
-	s_neighaddr.sinport = htons(X2AP_PORT);
-	
-	if(sento(socket_fd, pdu->msg, pdu->N_bytes, MSG_EOR, (struct sockaddr*)&s_neighaddr, sizeof(struct sockaddr_in)) < 0)
+	if(sendto(socket_fd, pdu->msg, pdu->N_bytes, MSG_EOR, (struct sockaddr*)&s_neighaddr, sizeof(struct sockaddr_in)) < 0)
 	{
-		perror("x2ap write_pdu sento error");
+		perror("x2ap write_pdu sendto error");
 	}
  }
  
  void write_sdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t sdu)
  {
+	// TODO:
 	// select() for prevent blocking / thread control
-	s_length = sizeof(struct s_neighaddr);
-	if((recv_bytes = recvfrom(socket_fd, buffer, SRSENB_MAX_BUFFER_SIZE_BYTES - SRSENB_BUFFER_HEADER_OFFSET ,0 , &s_neighaddr, s_length)) < 0 )
+	srslte::byte_buffer_t* buff = pool_allocate(pool);
+	if((buff->N_bytes = recvfrom(socket_fd, buff->msg, SRSENB_MAX_BUFFER_SIZE_BYTES - SRSENB_BUFFER_HEADER_OFFSET ,0 , &s_neighaddr, &addrlen)) < 0 )
 	{
 		perror("could not read datagram! \n");
 	}
 	
-	pdcp->wirte_sdu(rnti, lcid, buffer);
+	pdcp->wirte_sdu(rnti, lcid, buff);
+	pool->deallocate(buff);
  }
  
  } // namespace srsenb
