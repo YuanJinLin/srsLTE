@@ -26,9 +26,8 @@
  * Ref: 3GPP TS36.423 v16.0.0 
  ***************************************************************************/
  
- x2ap(srslte::log* x2ap_log_)
+ x2ap(srslte::log* x2ap_log_) : x2ap_log(x2ap_log_)
  {
-	x2ap_log = x2ap_log_;
  }
  
  bool x2ap::init(srsenb::pdcp_interface_x2ap* pdcp_, std::string x2ap_myaddr_, std::string x2ap_neiaddr_)
@@ -36,14 +35,12 @@
 	pdcp = pdcp_;
 	x2ap_myaddr = x2ap_myaddr_;
 	x2ap_neiaddr = x2ap_neiaddr_;
-	pool = byte_buffer_pool::get_instance();
+	x2ap_pool = srslte::byte_buffer_pool::get_instance();
 	
 	bzero(&s_neighaddr , sizeof(struct sockaddr_in));
 	s_neighaddr.sin_family = AF_INET;
 	s_neighaddr.sin_addr.s_addr = inet_addr(x2ap_neiaddr.c_str());
 	s_neighaddr.sin_port = htons(X2AP_PORT);
-	
-	recv_bytes = 0;
 	
 	// Set up socket
 	socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -111,18 +108,18 @@
 	}
  }
  
- void write_sdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t sdu)
+ void x2ap::write_sdu(uint16_t rnti, uint32_t lcid, srslte::unique_byte_buffer_t sdu)
  {
 	// TODO:
 	// select() for prevent blocking / thread control
-	srslte::byte_buffer_t* buff = pool_allocate(pool);
+	srslte::byte_buffer_t* buff = pool_allocate(x2ap_pool);
 	if((buff->N_bytes = recvfrom(socket_fd, buff->msg, SRSENB_MAX_BUFFER_SIZE_BYTES - SRSENB_BUFFER_HEADER_OFFSET ,0 , &s_neighaddr, &addrlen)) < 0 )
 	{
 		perror("could not read datagram! \n");
 	}
 	
 	pdcp->wirte_sdu(rnti, lcid, buff);
-	pool->deallocate(buff);
+	x2ap_pool->deallocate(buff);
  }
  
  } // namespace srsenb

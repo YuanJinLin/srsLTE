@@ -60,12 +60,11 @@ private:
 	std::string x2ap_myaddr;
 	std::string x2ap_neiaddr;
 	
-	srslte::byte_buffer_pool* pool = nullptr;
+	srslte::byte_buffer_pool* x2ap_pool = nullptr;
 	
 	
 	// Socket
 	int socket_fd = -1;
-	int receive_fd = -1;
 	socklen_t addrlen;
 	struct sockaddr_in s_myaddr;
 	struct sockaddr_in s_neighaddr;
