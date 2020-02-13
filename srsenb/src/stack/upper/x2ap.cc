@@ -26,7 +26,7 @@
  * Ref: 3GPP TS36.423 v16.0.0 
  ***************************************************************************/
  
- x2ap(srslte::log* x2ap_log_) : x2ap_log(x2ap_log_)
+ x2ap::x2ap(srslte::log* x2ap_log_) : x2ap_log(x2ap_log_)
  {
  }
  
@@ -112,8 +112,8 @@
  {
 	// TODO:
 	// select() for prevent blocking / thread control
-	srslte::byte_buffer_t* buff = pool_allocate(x2ap_pool);
-	if((buff->N_bytes = recvfrom(socket_fd, buff->msg, SRSENB_MAX_BUFFER_SIZE_BYTES - SRSENB_BUFFER_HEADER_OFFSET ,0 , &s_neighaddr, &addrlen)) < 0 )
+	srslte::byte_buffer_t* buff = pool_allocate();
+	if((buff->N_bytes = recvfrom(socket_fd, buff->msg, SRSENB_MAX_BUFFER_SIZE_BYTES - SRSENB_BUFFER_HEADER_OFFSET ,0 , (struct sockaddr*)&s_neighaddr, &addrlen)) < 0 )
 	{
 		perror("could not read datagram! \n");
 	}
