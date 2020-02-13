@@ -95,8 +95,6 @@ struct general_args_t {
   bool        print_buffer_state;
   std::string eia_pref_list;
   std::string eea_pref_list;
-  std::string       x2ap_myaddr;
-  std::string       x2ap_neiaddr;
 };
 
 struct all_args_t {

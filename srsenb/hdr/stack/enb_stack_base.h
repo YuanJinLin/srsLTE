@@ -61,6 +61,8 @@ typedef struct {
   pcap_args_t      pcap;
   stack_log_args_t log;
   embms_args_t     embms;
+  std::string       x2ap_myaddr;
+  std::string       x2ap_neiaddr;
 } stack_args_t;
 
 struct stack_metrics_t;

@@ -19,7 +19,6 @@
  
  #include "srsenb/hdr/stack/upper/x2ap.h"
  
- 
  namespace srsenb {
 
 /****************************************************************************
@@ -112,14 +111,27 @@
  {
 	// TODO:
 	// select() for prevent blocking / thread control
-	srslte::byte_buffer_t* buff = pool_allocate(buff);
-	if((buff->N_bytes = recvfrom(socket_fd, buff->msg, SRSENB_MAX_BUFFER_SIZE_BYTES - SRSENB_BUFFER_HEADER_OFFSET ,0 , (struct sockaddr*)&s_neighaddr, &addrlen)) < 0 )
+
+	// ref rlc.cc
+
+	srslte::unique_byte_buffer_t buff = allocate_unique_buffer(*x2ap_pool);
+	/*
+	buff->clear();
+	int length = recvfrom(socket_fd, buff->msg, SRSENB_MAX_BUFFER_SIZE_BYTES - SRSENB_BUFFER_HEADER_OFFSET ,0 , (struct sockaddr*)&s_neighaddr, &addrlen);
+	
+
+	if(length < 0 )
 	{
 		perror("could not read datagram! \n");
+	}else
+	{
+		buff->N_bytes = (uint32_t)length;
+		pdcp->write_sdu(rnti, lcid, buff);
 	}
+*/
 	
-	pdcp->write_sdu(rnti, lcid, buff);
-	x2ap_pool->deallocate(buff);
+	// TODO:
+	//buff delete?
  }
  
  } // namespace srsenb

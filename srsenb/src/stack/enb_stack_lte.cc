@@ -149,7 +149,7 @@ int enb_stack_lte::init(const stack_args_t& args_, const rrc_cfg_t& rrc_cfg_)
   mac.init(args.mac, &cell_cfg, phy, &rlc, &rrc, this, &mac_log);
   rlc.init(&pdcp, &rrc, &mac, &timers, &rlc_log);
   pdcp.init(&rlc, &rrc, &gtpu);
-  x2ap.init(&pdcp, args.general.x2ap_myaddr, args.general.x2ap_neiaddr);
+  //x2ap.init(&pdcp, args.x2ap_myaddr, args.x2ap_neiaddr);
   rrc.init(&rrc_cfg, phy, &mac, &rlc, &pdcp, &s1ap, &gtpu, &timers, &rrc_log);
   s1ap.init(args.s1ap, &rrc, &s1ap_log, &timers, this);
   gtpu.init(args.s1ap.gtp_bind_addr,
@@ -195,7 +195,7 @@ void enb_stack_lte::stop_impl()
   mac.stop();
   rlc.stop();
   pdcp.stop();
-  x2ap.stop();
+  //x2ap.stop();
   rrc.stop();
 
   if (args.pcap.enable) {

@@ -127,7 +127,7 @@ private:
   srslte::mac_pcap mac_pcap;
   srsenb::rlc      rlc;
   srsenb::pdcp     pdcp;
-  srsenb::x2ap     x2ap;
+  //srsenb::x2ap     x2ap;
   srsenb::rrc      rrc;
   srsenb::gtpu     gtpu;
   srsenb::s1ap     s1ap;
